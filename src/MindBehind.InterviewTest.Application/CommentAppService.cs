@@ -16,18 +16,20 @@ namespace MindBehind.InterviewTest
      */
     public class CommentAppService : InterviewTestAppService, ICommentAppService
     {
-        public CommentAppService() : base()
-        {
+        private readonly IExternalAPIAppService externalAPIAppService;
 
+        public CommentAppService(
+            IExternalAPIAppService externalAPIAppService
+            ) : base()
+        {
+            this.externalAPIAppService = externalAPIAppService;
         }
 
         public async Task<List<CommentDto>> GetListAsync()
         {
             try
             {
-                var client = new RestClient("https://my-json-server.typicode.com");
-                var request = new RestRequest("typicode/demo/comments", DataFormat.Json);
-                var data = await client.GetAsync<List<CommentExtDto>>(request);
+                var data = await externalAPIAppService.FetchJson<List<CommentExtDto>>("https://my-json-server.typicode.com", "typicode/demo/comments");
 
                 var result = ObjectMapper.Map<List<CommentExtDto>, List<CommentDto>>(data);
 

@@ -6,8 +6,8 @@ namespace MindBehind.InterviewTest.Settings
     {
         public override void Define(ISettingDefinitionContext context)
         {
-            //Define your own settings here. Example:
-            //context.Add(new SettingDefinition(InterviewTestSettings.MySetting1));
+            context.Add(new SettingDefinition(InterviewTestSettings.CommentExternalApiBaseUrl, "https://my-json-server.typicode.com"));
+            context.Add(new SettingDefinition(InterviewTestSettings.CommentExternalApiResourcePath, "typicode/demo/comments"));
         }
     }
 }

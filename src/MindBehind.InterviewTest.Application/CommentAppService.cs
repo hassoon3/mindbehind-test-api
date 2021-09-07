@@ -9,6 +9,7 @@ using Volo.Abp;
 using RestSharp;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using MindBehind.InterviewTest.Settings;
 
 namespace MindBehind.InterviewTest
 {
@@ -29,7 +30,10 @@ namespace MindBehind.InterviewTest
         {
             try
             {
-                var data = await externalAPIAppService.FetchJson<List<CommentExtDto>>("https://my-json-server.typicode.com", "typicode/demo/comments");
+                var baseUrl = await this.SettingProvider.GetOrNullAsync(InterviewTestSettings.CommentExternalApiBaseUrl);
+                var resPath = await this.SettingProvider.GetOrNullAsync(InterviewTestSettings.CommentExternalApiResourcePath);
+
+                var data = await externalAPIAppService.FetchJson<List<CommentExtDto>>(baseUrl, resPath);
 
                 var result = ObjectMapper.Map<List<CommentExtDto>, List<CommentDto>>(data);
 
